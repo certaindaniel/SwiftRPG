@@ -202,12 +202,13 @@ public class Object: MapObject {
                 // オブジェクトの生成
                 let tileSetID = Int(property!["tileSetID"]!)
                 let object: Object!
+                var objectName: String! = nil
                 do {
-                    let tileSet = tileSets[tileSetID!]
-                    let obj_image = try tileSet?.cropTileImage(objectID)
-                    let name = property!["tileSetName"]! + "_" + NSUUID().UUIDString
+                    let tileSet    = tileSets[tileSetID!]
+                    let obj_image  = try tileSet?.cropTileImage(objectID)
+                    objectName = property!["tileSetName"]! + "_" + NSUUID().UUIDString
                     object = Object(
-                        name: name, /* 一意の名前をつける */
+                        name: objectName, /* 一意の名前をつける */
                         imageData: obj_image!,
                         position: TileCoordinate.getSheetCoordinateFromTileCoordinate(coordinate),
                         images: nil
@@ -233,17 +234,41 @@ public class Object: MapObject {
                     
                     let events = EventDispatcher<Any>()
                     events.add(GameSceneEvent.events[method]!(nil))
-                    // 周囲四方向のタイルにイベントを設置
-                    // TODO : 各方向に違うイベントが設置できないので修正
+                    // サブオブジェクトの生成
+                    // TODO : オブジェクトの配置方法に種類を設ける
                     let x = coordinate.getX()
                     let y = coordinate.getY()
-                    tiles[TileCoordinate(x: x - 1, y: y)]?.event = (events, Array(args))
-                    tiles[TileCoordinate(x: x + 1, y: y)]?.event = (events, Array(args))
-                    tiles[TileCoordinate(x: x, y: y - 1)]?.event = (events, Array(args))
-                    tiles[TileCoordinate(x: x, y: y + 1)]?.event = (events, Array(args))
+                    
+                    let subObjectsCoordinate: TileCoordinate
+                    switch object.direction_ {
+                    case .UP:
+                        subObjectsCoordinate = TileCoordinate(x: x, y: y + 1)
+                    case .DOWN:
+                        subObjectsCoordinate = TileCoordinate(x: x, y: y - 1)
+                    case .LEFT:
+                        subObjectsCoordinate = TileCoordinate(x: x - 1, y: y)
+                    case .RIGHT:
+                        subObjectsCoordinate = TileCoordinate(x: x + 1, y: y)
+                    }
+                    
+                    let subObject = Object(
+                        name: objectName,
+                        position: TileCoordinate.getSheetCoordinateFromTileCoordinate(coordinate),
+                        images: nil)
+                    subObject.event = (events, Array(args))
+                    
+                    if let _ = objects[subObjectsCoordinate] {
+                        objects[subObjectsCoordinate]?.append(subObject)
+                    } else {
+                        objects[subObjectsCoordinate] = [subObject]
+                    }
                 }
                 
-                objects[coordinate] = [object]
+                if let _ = objects[coordinate] {
+                    objects[coordinate]?.append(object)
+                } else {
+                    objects[coordinate] = [object]
+                }
             }
         }
         
