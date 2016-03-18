@@ -15,6 +15,10 @@ func ==(lhs: TileCoordinate, rhs: TileCoordinate) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
+func + (left: TileCoordinate, right: TileCoordinate) -> TileCoordinate {
+    return TileCoordinate(x: left.x+right.x, y: left.y+right.y)
+}
+
 /// タイル座標
 class TileCoordinate: Hashable {
     private let x: Int
