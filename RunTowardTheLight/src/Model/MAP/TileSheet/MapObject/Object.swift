@@ -19,6 +19,11 @@ struct IMAGE_SET {
 
 /// ゲーム画面上に配置されるオブジェクトに対応する，SKSpriteNode のラッパークラス(タイル上ではない)
 public class Object: MapObject {
+    // TODO : ちゃんとエラーハンドリングする
+    enum E : ErrorType {
+        case error
+    }
+    
     /// オブジェクト名
     private var name_: String!
     
@@ -95,7 +100,7 @@ public class Object: MapObject {
     ///  - parameter destination: 目標地点
     ///
     ///  - returns: 目標地点へ移動するアニメーション
-    func getActionTo(destination: CGPoint) -> Array<SKAction> {
+    func getActionTo(destination: CGPoint) throws -> Array<SKAction> {
         var actions: Array<SKAction> = []
         let position = position_
 
@@ -104,34 +109,30 @@ public class Object: MapObject {
         var nextTextures: [SKTexture]?
 
         if let images = self.images_ {
+            let targetDirection: DIRECTION
+            let targetImages: [[String]]
+            
             if (diff.x > 0 && diff.y == 0) {
-                direction_ = DIRECTION.RIGHT
-                nextTextures = []
-                for image in images.RIGHT[self.stepIndex] {
-                    nextTextures?.append(SKTexture(imageNamed: image))
-                    self.stepIndex = abs(self.stepIndex-1)
-                }
+                targetDirection = DIRECTION.RIGHT
+                targetImages    = images.RIGHT
             } else if (diff.x < 0 && diff.y == 0) {
-                direction_ = DIRECTION.LEFT
-                nextTextures = []
-                for image in images.LEFT[self.stepIndex] {
-                    nextTextures?.append(SKTexture(imageNamed: image))
-                    self.stepIndex = abs(self.stepIndex-1)
-                }
+                targetDirection = DIRECTION.RIGHT
+                targetImages    = images.RIGHT
             } else if (diff.x == 0 && diff.y > 0) {
-                direction_ = DIRECTION.UP
-                nextTextures = []
-                for image in images.UP[self.stepIndex] {
-                    nextTextures?.append(SKTexture(imageNamed: image))
-                    self.stepIndex = abs(self.stepIndex-1)
-                }
+                targetDirection = DIRECTION.RIGHT
+                targetImages    = images.RIGHT
             } else if (diff.x == 0 && diff.y < 0) {
-                direction_ = DIRECTION.DOWN
-                nextTextures = []
-                for image in images.DOWN[self.stepIndex] {
-                    nextTextures?.append(SKTexture(imageNamed: image))
-                    self.stepIndex = abs(self.stepIndex-1)
-                }
+                targetDirection = DIRECTION.RIGHT
+                targetImages    = images.RIGHT
+            } else {
+                throw E.error
+            }
+            
+            direction_ = targetDirection
+            nextTextures = []
+            for image in targetImages[self.stepIndex] {
+                nextTextures?.append(SKTexture(imageNamed: image))
+                self.stepIndex = abs(self.stepIndex-1)
             }
         } else {
             nextTextures = [self.object_.texture!]

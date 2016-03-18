@@ -186,7 +186,7 @@ class GameSceneEvent: NSObject {
                     var actions: Array<SKAction> = []
                     for step: TileCoordinate in path {
                         let stepPoint: CGPoint = TileCoordinate.getSheetCoordinateFromTileCoordinate(step)
-                        actions += player.getActionTo(stepPoint)
+                        actions += try! player.getActionTo(stepPoint)
                         
                         // イベントが存在したら動きを止める
                         let eventsOnStep = map.getEventsOn(step)
@@ -207,16 +207,6 @@ class GameSceneEvent: NSObject {
                                 event.0.trigger(controller, args: event.1)
                         }
                     })
-                    
-                    // TODO : 位置情報をリアルタイムに更新する
-                    /*let maxTime = CGFloat(actions.count) * player.getMovingSpeed()
-                    let updateInterval = player.getMovingSpeed()/2
-                    for (var delay: CGFloat=0.0; delay<maxTime; delay+=updateInterval) {
-                        dispatch_after(
-                            dispatch_time(DISPATCH_TIME_NOW, Int64(delay * 1000)),
-                            dispatch_get_main_queue(),
-                            { map.updateObjectPlacement(sheet.getSheetPosition(), object: player) })
-                    }*/
                     
                     if let scrollAction = sheet.scrollSheet(destination) {
                         let delay = SKAction.waitForDuration(
