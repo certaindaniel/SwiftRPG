@@ -43,6 +43,8 @@ public class Object: MapObject {
     /// 当たり判定
     internal var hasCollision: Bool
     
+    private var subObjectsPositions: [TileCoordinate]?
+    
     /// 歩行のためのインデックス
     /// 0 のときと 1 のときで左足を出すか右足を出すかかわる．0 と 1 の間で toggle する
     private var stepIndex: Int = 0
@@ -236,31 +238,31 @@ public class Object: MapObject {
                     events.add(GameSceneEvent.events[method]!(nil))
                     // サブオブジェクトの生成
                     // TODO : オブジェクトの配置方法に種類を設ける
-                    let x = coordinate.getX()
-                    let y = coordinate.getY()
-                    
-                    let subObjectsCoordinate: TileCoordinate
+                    let subObjectPosition: TileCoordinate
                     switch object.direction_ {
                     case .UP:
-                        subObjectsCoordinate = TileCoordinate(x: x, y: y + 1)
+                        subObjectPosition = TileCoordinate(x:  0, y:  1)
                     case .DOWN:
-                        subObjectsCoordinate = TileCoordinate(x: x, y: y - 1)
+                        subObjectPosition = TileCoordinate(x:  0, y: -1)
                     case .LEFT:
-                        subObjectsCoordinate = TileCoordinate(x: x - 1, y: y)
+                        subObjectPosition = TileCoordinate(x: -1, y:  0)
                     case .RIGHT:
-                        subObjectsCoordinate = TileCoordinate(x: x + 1, y: y)
+                        subObjectPosition = TileCoordinate(x:  1, y:  0)
                     }
                     
                     let subObject = Object(
                         name: objectName,
-                        position: TileCoordinate.getSheetCoordinateFromTileCoordinate(coordinate),
+                        position: TileCoordinate.getSheetCoordinateFromTileCoordinate(
+                            coordinate+subObjectPosition
+                        ),
                         images: nil)
+                    object.setSubObjectsPositions(subObjectPosition)
                     subObject.event = (events, Array(args))
                     
-                    if let _ = objects[subObjectsCoordinate] {
-                        objects[subObjectsCoordinate]?.append(subObject)
+                    if let _ = objects[coordinate+subObjectPosition] {
+                        objects[coordinate+subObjectPosition]?.append(subObject)
                     } else {
-                        objects[subObjectsCoordinate] = [subObject]
+                        objects[coordinate+subObjectPosition] = [subObject]
                     }
                 }
                 
@@ -313,6 +315,14 @@ public class Object: MapObject {
     
     func setZPosition(position: CGFloat) {
         self.object_.zPosition = position
+    }
+    
+    func setSubObjectsPositions(position: TileCoordinate) {
+        if let _ = self.subObjectsPositions {
+            self.subObjectsPositions?.append(position)
+        } else {
+            self.subObjectsPositions = [position]
+        }
     }
 }
 
