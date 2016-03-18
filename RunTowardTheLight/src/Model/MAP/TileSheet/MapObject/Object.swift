@@ -201,26 +201,26 @@ public class Object: MapObject {
                 
                 // オブジェクトの生成
                 let tileSetID = Int(property!["tileSetID"]!)
+                let object: Object!
                 do {
                     let tileSet = tileSets[tileSetID!]
                     let obj_image = try tileSet?.cropTileImage(objectID)
                     let name = property!["tileSetName"]! + "_" + NSUUID().UUIDString
-                    objects[coordinate] = [Object(
+                    object = Object(
                         name: name, /* 一意の名前をつける */
                         imageData: obj_image!,
                         position: TileCoordinate.getSheetCoordinateFromTileCoordinate(coordinate),
                         images: nil
-                    )]
+                    )
                 } catch {
                     print("object生成失敗")
                     throw E.error
                 }
                 
                 // 当たり判定の付加
-                // TODO: タイルではなくオブジェクトに当たり判定をつける
                 if let hasCollision = property!["collision"] {
                     if hasCollision == "1" {
-                        tiles[coordinate]?.setCollision()
+                        object.setCollision()
                     }
                 }
                 
@@ -242,6 +242,8 @@ public class Object: MapObject {
                     tiles[TileCoordinate(x: x, y: y - 1)]?.event = (events, Array(args))
                     tiles[TileCoordinate(x: x, y: y + 1)]?.event = (events, Array(args))
                 }
+                
+                objects[coordinate] = [object]
             }
         }
         
