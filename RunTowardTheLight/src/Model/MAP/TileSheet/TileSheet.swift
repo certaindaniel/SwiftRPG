@@ -255,8 +255,8 @@ public class TileSheet {
     ///  タイルシートにオブジェクトを追加する
     ///
     ///  - parameter object: 追加するオブジェクト
-    func addObjectToSheet(object: Object) {
-        object.addTo(self.sheet_)
+    func addMapObjectToSheet(mapObject: MapObject) {
+        mapObject.addTo(self.sheet_)
     }
     
     
@@ -267,6 +267,13 @@ public class TileSheet {
     ///  - returns: オブジェクトの現在位置
     func getObjectPositionByName(name: String) -> CGPoint? {
         return self.sheet_.childNodeWithName(name)?.position
+    }
+    
+    
+    func removeObjectByName(name: String) {
+        if let node = self.sheet_.childNodeWithName(name) {
+            self.sheet_.removeChildrenInArray([node])
+        }
     }
     
     

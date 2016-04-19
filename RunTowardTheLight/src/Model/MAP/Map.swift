@@ -130,13 +130,51 @@ public class Map {
     }
     
     
+    ///  オブジェクトを配置する
+    ///
+    ///  - parameter coordinate: 配置先の座標
+    ///  - parameter object:     配置するオブジェクト
+    func setMapObjectTo(coordinate: TileCoordinate, mapObject: MapObject) {
+        self.placement[coordinate]?.append(mapObject)
+        self.sheet?.addMapObjectToSheet(mapObject)
+    }
+    
+    
+    ///  オブジェクトを削除する
+    ///
+    ///  - parameter name: 削除するオブジェクトの名前
+    func removeObjectByName(name: String) {
+        // Dictionary から削除
+        var breakFlag = false
+        var targetCoordinate: TileCoordinate?
+        var targetObjectIndex: Int?
+        for (coordinate, mapObjects) in self.placement {
+            for (index, object) in mapObjects.enumerate() {
+                if object.getName() == name {
+                    targetCoordinate = coordinate
+                    targetObjectIndex = index
+                    breakFlag = true
+                    break
+                }
+            }
+            if breakFlag { break }
+        }
+        if targetObjectIndex != nil && targetCoordinate != nil {
+            self.placement[targetCoordinate!]?.removeAtIndex(targetObjectIndex!)
+        }
+        
+        // シートから削除
+        self.sheet?.removeObjectByName(name)
+    }
+    
+    
     ///  名前からオブジェクトを取得する
     ///
     ///  - parameter name: オブジェクト名
     ///
     ///  - returns: 取得したオブジェクト．存在しなければ nil
     func getObjectByName(name: String) -> (coordinate: TileCoordinate, object: Object)? {
-        for (coordinate, mapObjects) in placement {
+        for (coordinate, mapObjects) in self.placement {
             for object in mapObjects {
                 if let obj = object as? Object {
                     if obj.getName() == name { return (coordinate, obj) }

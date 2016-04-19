@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SpriteKit
 
 protocol MapObject {
     /// 当たり判定
@@ -23,4 +23,8 @@ protocol MapObject {
     func setEvent(event: EventDispatcher<Any>, args: [String])
     
     func getEvent() -> (EventDispatcher<Any>, [String])?
+    
+    func addTo(node: SKSpriteNode)
+    
+    func getName() -> String?
 }

@@ -314,6 +314,10 @@ public class Object: MapObject {
         return self.object_.position
     }
     
+    func getName() -> String? {
+        return self.object_.name
+    }
+    
     func setZPosition(position: CGFloat) {
         self.object_.zPosition = position
     }

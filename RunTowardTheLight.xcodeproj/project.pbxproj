@@ -29,6 +29,7 @@
 		A02F0CBD1C284D0F00997B86 /* kanamono_wall_03.png in Resources */ = {isa = PBXBuildFile; fileRef = A02F0CB21C284D0F00997B86 /* kanamono_wall_03.png */; };
 		A02F0CBE1C284D0F00997B86 /* kanamono_wall.png in Resources */ = {isa = PBXBuildFile; fileRef = A02F0CB31C284D0F00997B86 /* kanamono_wall.png */; };
 		A02F0CBF1C284D0F00997B86 /* mob.png in Resources */ = {isa = PBXBuildFile; fileRef = A02F0CB41C284D0F00997B86 /* mob.png */; };
+		A0459D221CC6652400948D61 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0459D211CC6652400948D61 /* Item.swift */; };
 		A05BEFAA1BB538CF00A17C13 /* plr_down.png in Resources */ = {isa = PBXBuildFile; fileRef = A05BEFA61BB538CF00A17C13 /* plr_down.png */; };
 		A05BEFAB1BB538CF00A17C13 /* plr_up.png in Resources */ = {isa = PBXBuildFile; fileRef = A05BEFA71BB538CF00A17C13 /* plr_up.png */; };
 		A05BEFAC1BB538CF00A17C13 /* plr_right.png in Resources */ = {isa = PBXBuildFile; fileRef = A05BEFA81BB538CF00A17C13 /* plr_right.png */; };
@@ -112,6 +113,7 @@
 		A02F0CB21C284D0F00997B86 /* kanamono_wall_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kanamono_wall_03.png; sourceTree = "<group>"; };
 		A02F0CB31C284D0F00997B86 /* kanamono_wall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kanamono_wall.png; sourceTree = "<group>"; };
 		A02F0CB41C284D0F00997B86 /* mob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mob.png; sourceTree = "<group>"; };
+		A0459D211CC6652400948D61 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		A05BEFA61BB538CF00A17C13 /* plr_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plr_down.png; sourceTree = "<group>"; };
 		A05BEFA71BB538CF00A17C13 /* plr_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plr_up.png; sourceTree = "<group>"; };
 		A05BEFA81BB538CF00A17C13 /* plr_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plr_right.png; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				A06593D11C721A1000148D2B /* MapObject.swift */,
 				D7D8A5AA1B70652600147A45 /* Object.swift */,
 				D7D97FFE1B6F05B1000704B0 /* Tile.swift */,
+				A0459D211CC6652400948D61 /* Item.swift */,
 			);
 			path = MapObject;
 			sourceTree = "<group>";
@@ -692,6 +695,7 @@
 				2C363A541B7B20260042FA2D /* EventDispatcher.swift in Sources */,
 				A0D839941C8017AD005CC12D /* TalkBodyParser.swift in Sources */,
 				D7D980011B6F05C3000704B0 /* TileSheet.swift in Sources */,
+				A0459D221CC6652400948D61 /* Item.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

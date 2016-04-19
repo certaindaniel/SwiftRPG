@@ -191,4 +191,8 @@ public class Tile: MapObject {
     func getProperties() -> TileProperty {
         return self.property_
     }
+    
+    func getName() -> String? {
+        return self.tile_.name
+    }
 }
