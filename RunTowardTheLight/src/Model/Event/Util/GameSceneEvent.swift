@@ -77,6 +77,7 @@ class GameSceneEvent: NSObject {
                     }
                     
                     scene.actionButton.hidden = true
+                    scene.menuButton.hidden = true
                     
                     if let playerTuple = map.getObjectByName(objectNameTable.PLAYER_NAME) {
                         let player = playerTuple.object
@@ -116,6 +117,7 @@ class GameSceneEvent: NSObject {
                 let skView     = controller.view as! SKView
                 let scene      = skView.scene as! GameScene
                 scene.textBox_.hide()
+                scene.menuButton.hidden = false
                 controller.touchEvent.removeAll()
                 controller.touchEvent.add(GameSceneEvent.events[PLAYER_MOVE]!(nil))
             }
