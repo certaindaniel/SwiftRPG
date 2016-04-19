@@ -116,14 +116,14 @@ public class Object: MapObject {
                 targetDirection = DIRECTION.RIGHT
                 targetImages    = images.RIGHT
             } else if (diff.x < 0 && diff.y == 0) {
-                targetDirection = DIRECTION.RIGHT
-                targetImages    = images.RIGHT
+                targetDirection = DIRECTION.LEFT
+                targetImages    = images.LEFT
             } else if (diff.x == 0 && diff.y > 0) {
-                targetDirection = DIRECTION.RIGHT
-                targetImages    = images.RIGHT
+                targetDirection = DIRECTION.UP
+                targetImages    = images.UP
             } else if (diff.x == 0 && diff.y < 0) {
-                targetDirection = DIRECTION.RIGHT
-                targetImages    = images.RIGHT
+                targetDirection = DIRECTION.DOWN
+                targetImages    = images.DOWN
             } else {
                 throw E.error
             }

@@ -63,6 +63,7 @@ public class Map {
                         cols,
                         layerTileRows: rows,
                         kind: TiledMapJsonParser.LAYER.OBJECT))
+                
                 // 主人公の作成
                 let playerPosition = TileCoordinate(x: 10, y: 10)
                 let player = Object(
