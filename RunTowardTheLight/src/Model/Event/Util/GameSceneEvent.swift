@@ -20,6 +20,7 @@ class GameSceneEvent: NSObject {
     static let END_OF_TALK: eventID = "wait_for_touch"
     
     static let INVOKE_TALK: String = "talk"
+    static let INVOKE_DETECTION: String = "detect_item"
     
     static var events: Dictionary<eventID, (JSON?) -> EventListener<Any>> =
     [
@@ -132,23 +133,30 @@ class GameSceneEvent: NSObject {
                 let scene      = skView.scene as! GameScene
                 let map        = scene.map
                 
-                scene.actionButton.hidden = false
-                
                 if let args_ = args as? [String] {
                     let actionKind = args_[0]
                     
+                    // TODO: タイトル切り替えの瞬間が見えてしまうため，どうにかする
                     switch actionKind as String {
                     case INVOKE_TALK :
+                        scene.actionButton.setTitle("しゃべる", forState: UIControlState.Normal)
                         if let parser = TalkBodyParser(talkFileName: args_[1]) {
                             controller.actionEvent.removeAll()
                             controller.actionEvent.add(GameSceneEvent.events[TALK]!(parser.parse()))
                         } else {
                             print("Invarid talk file")
                         }
+                        break
+                    case INVOKE_DETECTION :
+                        scene.actionButton.setTitle("しらべる", forState: UIControlState.Normal)
+                        controller.actionEvent.removeAll()
+                        break
                     default:
                         print("Invalid kind of action")
                         break
                     }
+                    
+                    scene.actionButton.hidden = false
                 } else {
                     print("Invalid args of action")
                 }
